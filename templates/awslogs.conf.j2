@@ -1,26 +1,12 @@
-
 [general]
 state_file = /var/awslogs/state/agent-state
+logging_config_file = /var/awslogs/etc/logging.conf
 
 {% for logfile in aws_cloudwatch_client_logfiles %}
-[{{ logfile.logpath }}]
-{%if logfile.datetime_format %}
-datetime_format = {{ logfile.datetime_format }}
-{% endif %}
-{%if logfile.logpath %}
-file = {{ logfile.logpath }}
-{% endif %}
-{%if logfile.buffer_duration %}
-buffer_duration = {{ logfile.buffer_duration }}
-{% endif %}
-{%if logfile.initial_position %}
-initial_position = {{ logfile.initial_position }}
-{% endif %}
-{%if logfile.logpath %}
-log_group_name = {{ logfile.logpath }}
-{% endif %}
-{%if logfile.log_stream_name %}
-log_stream_name = {{ logfile.log_stream_name }}
-{% endif %}
+[{{ logfile['file'] }}]
+log_group_name = {{ logfile['file'] }}
+{% for key in logfile.keys() -%}
+{{- key }} = {{ logfile[key] }}
+{% endfor %}
 
 {% endfor %}

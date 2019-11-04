@@ -20,6 +20,21 @@
   notify: configure awslogs
   register: config
 
+- name: Create awslogs logging configuration directory
+  file:
+    path: "/var/awslogs/etc/"
+    state: directory
+    owner: root
+    recurse: true
+
+- name: Copy awslogs logging configuration file
+  template:
+    src: "templates/logging.conf.j2"
+    dest: "/var/awslogs/etc/logging.conf"
+    mode: 0644
+  notify: configure awslogs
+  register: config
+
 - name: Run the awslogs setup command
   command: creates="/var/awslogs/bin" python /tmp/awslogs-agent-setup.py --region eu-central-1 -c /tmp/awslogs.conf --non-interactive
   become: yes
