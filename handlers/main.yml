@@ -3,5 +3,5 @@
 
 - name: Setup awslogs with new config
   listen: "configure awslogs"
-  command: python /tmp/awslogs-agent-setup.py --region eu-central-1 -c /tmp/awslogs.conf --non-interactive
+  command: python3 /tmp/awslogs-agent-setup.py --region eu-central-1 -c /tmp/awslogs.conf --non-interactive
   become: yes
